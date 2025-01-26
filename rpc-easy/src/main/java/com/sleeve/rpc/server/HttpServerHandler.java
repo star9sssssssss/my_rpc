@@ -35,7 +35,7 @@ public class HttpServerHandler implements Handler<HttpServerRequest> {
         // 记录日志
         System.out.println("Received request: " + request.method() + " " + request.uri());
 
-        // 异步处理请求
+        // 异步处理请求 从body中获得本次发送的请求 rpcRequest
         request.bodyHandler(body -> {
             // 1.反序列化请求对象，并获取参数
             byte[] bytes = body.getBytes();

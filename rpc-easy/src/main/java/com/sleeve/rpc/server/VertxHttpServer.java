@@ -1,10 +1,8 @@
 package com.sleeve.rpc.server;
-
 import io.vertx.core.Vertx;
 
 
 public class VertxHttpServer implements HttpServer{
-
 
     public void doStart(int port) {
         // 创建 vertx 实例

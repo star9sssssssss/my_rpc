@@ -16,16 +16,26 @@ import java.lang.reflect.Method;
  */
 public class ServiceProxy implements InvocationHandler {
 
+    /**
+     *
+     * @param proxy the proxy instance that the method was invoked on
+     * @param method 当前调用的方法
+     * @param args 当前调用方法的参数
+     * @return
+     * @throws Throwable
+     */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Serializer serializer = new JdkSerializer();
+
         // 构建发送请求类
         RpcRequest rpcRequest = RpcRequest.builder()
-                .serviceName(method.getDeclaringClass().getName())
+                .serviceName(method.getDeclaringClass().getName()) // 定义该方法的类
                 .methodName(method.getName())
                 .parameterTypes(method.getParameterTypes())
                 .args(args)
                 .build();
+
         try {
             byte[] bytes = serializer.serialize(rpcRequest);
             byte[] result;
@@ -36,6 +46,8 @@ public class ServiceProxy implements InvocationHandler {
                 result = httpResponse.bodyBytes();
             }
             RpcResponse rpcResponse = serializer.deserialize(result, RpcResponse.class);
+            System.out.println("本次调用的信息 " + rpcResponse.getMessage());
+            System.out.println("返回参数的类型" + rpcResponse.getDataType());
             return rpcResponse.getData();
         } catch (IOException e) {
             e.printStackTrace();

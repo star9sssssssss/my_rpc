@@ -22,6 +22,6 @@ public class EasyConsumerExample {
         UserService userService = ServiceProxyFactory.getProxy(UserService.class);
         User user = new User();
         user.setName("Jack");
-        userService.getUser(user);
+        System.out.println(userService.getUser(user));
     }
 }
