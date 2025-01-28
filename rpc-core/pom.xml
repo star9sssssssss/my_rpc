@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.sleeve</groupId>
-  <artifactId>example-provider</artifactId>
+  <artifactId>rpc-core</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>example-provider</name>
+  <name>rpc-core</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -17,14 +17,16 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.sleeve</groupId>
-      <artifactId>rpc-core</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/io.vertx/vertx-core -->
     <dependency>
-      <groupId>com.sleeve</groupId>
-      <artifactId>example-common</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-core</artifactId>
+      <version>4.5.1</version>
     </dependency>
     <!-- https://doc.hutool.cn/ -->
     <dependency>
@@ -40,10 +42,9 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.3.12</version>
     </dependency>
   </dependencies>
 
