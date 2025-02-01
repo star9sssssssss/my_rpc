@@ -1,8 +1,8 @@
 package com.sleeve.example.consumer;
 
+import com.sleeve.core.proxy.ServiceProxyFactory;
 import com.sleeve.example.common.model.User;
 import com.sleeve.example.common.service.UserService;
-import com.sleeve.rpc.proxy.ServiceProxyFactory;
 
 /**
  * 简单的消费者示例
@@ -23,5 +23,6 @@ public class EasyConsumerExample {
         User user = new User();
         user.setName("Jack");
         System.out.println(userService.getUser(user));
+        System.out.println(userService.getNumber());
     }
 }

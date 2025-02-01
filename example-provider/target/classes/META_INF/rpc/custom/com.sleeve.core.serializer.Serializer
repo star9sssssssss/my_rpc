@@ -1,0 +1,4 @@
+jdk=com.sleeve.core.serializer.JdkSerializer
+hessian=com.sleeve.core.serializer.HessianSerializer
+json=com.sleeve.core.serializer.JsonSerializer
+kryo=com.sleeve.core.serializer.KryoSerializer

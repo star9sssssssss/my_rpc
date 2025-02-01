@@ -2,10 +2,13 @@ package com.sleeve.core.proxy;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
-import com.sleeve.rpc.model.RpcRequest;
-import com.sleeve.rpc.model.RpcResponse;
-import com.sleeve.rpc.serializer.JdkSerializer;
-import com.sleeve.rpc.serializer.Serializer;
+import com.sleeve.core.RpcApplication;
+import com.sleeve.core.model.RpcRequest;
+import com.sleeve.core.model.RpcResponse;
+import com.sleeve.core.serializer.JdkSerializer;
+import com.sleeve.core.serializer.Serializer;
+import com.sleeve.core.serializer.SerializerFactory;
+
 
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
@@ -26,7 +29,7 @@ public class ServiceProxy implements InvocationHandler {
      */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        Serializer serializer = new JdkSerializer();
+        final Serializer serializer = SerializerFactory.getInstance(RpcApplication.getRpcConfig().getSerializer());
 
         // 构建发送请求类
         RpcRequest rpcRequest = RpcRequest.builder()

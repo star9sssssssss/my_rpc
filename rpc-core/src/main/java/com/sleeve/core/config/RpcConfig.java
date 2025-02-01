@@ -1,5 +1,7 @@
 package com.sleeve.core.config;
 
+import com.sleeve.core.serializer.Serializer;
+import com.sleeve.core.serializer.SerializerKeys;
 import lombok.Data;
 
 /**
@@ -27,5 +29,28 @@ public class RpcConfig {
      * 服务器端口号
      */
     private Integer serverPort = 8080;
+
+    /**
+     * 是否开启模拟调用
+     */
+    private Boolean mock = false;
+
+    /**
+     * 序列化器
+     * @return 类型
+     */
+    private String serializer = SerializerKeys.JDK;
+
+    /**
+     * 注册中心配置
+     * @return
+     */
+    private RegistryConfig registryConfig = new RegistryConfig();
+
+    public Boolean isMock() {
+        return mock;
+    }
+
+
 
 }
