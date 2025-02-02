@@ -62,8 +62,8 @@ public class SpiLoader {
     /**
      * 获取某个接口的实例
      *
-     * @param tClass
-     * @param key
+     * @param tClass 获取的实例类型
+     * @param key 获取的实例对应的key
      * @param <T>
      * @return
      */
@@ -88,7 +88,7 @@ public class SpiLoader {
                 throw new RuntimeException(errorMsg, e);
             }
         }
-        log.info("本次使用的序列化器为 {}", implClass.getSimpleName());
+        log.info("本次使用的类型为为 {}", implClass.getSimpleName());
         return (T) instanceCache.get(implClassName);
     }
 

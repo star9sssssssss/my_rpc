@@ -1,12 +1,15 @@
 package com.sleeve.core.model;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.sleeve.core.constant.RpcConstant;
+import lombok.Data;
 
 /**
  * 服务元信息 (注册信息)
  *
  */
+@Data
 public class ServiceMetaInfo {
 
 
@@ -37,11 +40,12 @@ public class ServiceMetaInfo {
 
 
     /**
-     * 获取服务的键名
+     * 获取服务的键名, 由服务名称和服务版本组成
      * @return
      */
     public String getServiceKey() {
         // 后续可拓展分组 return String.format("%s:%s", serviceName, serviceVersion, serviceGroup);
+        // userService:1.0
         return String.format("%s:%s", serviceName, serviceVersion);
     }
 
@@ -52,8 +56,21 @@ public class ServiceMetaInfo {
      * @return
      */
     public String getServiceNodeKey() {
+        // userService:1.0/localhost:8080
         return String.format("%s/%s:%s", getServiceKey(), serviceHost, servicePort);
     }
 
+
+    /**
+     * 获取完整服务地址
+     *
+     * @return
+     */
+    public String getServiceAddress() {
+        if (!StrUtil.contains(serviceHost, "http")) {
+            return String.format("http://%s:%s", serviceHost, servicePort);
+        }
+        return String.format("%s:%s", serviceHost, servicePort);
+    }
 
 }

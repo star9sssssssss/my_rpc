@@ -1,5 +1,6 @@
 package com.sleeve.core.config;
 
+import com.sleeve.core.registry.RegistryKeys;
 import lombok.Data;
 
 /**
@@ -11,7 +12,7 @@ public class RegistryConfig {
     /**
      * 注册中心类别
      */
-    private String registry = "etcd";
+    private String registryType = RegistryKeys.ETCD;
 
     /**
      * 注册中心地址
@@ -33,5 +34,15 @@ public class RegistryConfig {
      */
     private Long timeout = 10000L;
 
+    @Override
+    public String toString() {
+        return "RegistryConfig{" +
+                "registry='" + registryType + '\'' +
+                ", address='" + address + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", timeout=" + timeout +
+                '}';
+    }
 }
 
