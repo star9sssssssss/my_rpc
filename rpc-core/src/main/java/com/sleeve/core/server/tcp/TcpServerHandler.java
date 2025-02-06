@@ -21,8 +21,8 @@ public class TcpServerHandler implements Handler<NetSocket> {
 
     @Override
     public void handle(NetSocket netSocket) {
-        // 处理连接
-        netSocket.handler(buffer -> {
+
+        TcpBufferHandlerWrapper bufferHandlerWrapper = new TcpBufferHandlerWrapper(buffer -> {
             // 处理请求，解码
             ProtocolMessage<RpcRequest> protocolMessage;
             try {
@@ -38,8 +38,8 @@ public class TcpServerHandler implements Handler<NetSocket> {
             // 通过反射调用实现类
             Class<?> implClass = LocalRegistry.get(rpcRequest.getServiceName());
             try {
-                Method method = implClass.getDeclaredMethod(rpcRequest.getMethodName(), rpcRequest.getParameterTypes());
-                Object result = method.invoke(implClass.getDeclaredConstructor().newInstance(), rpcRequest.getArgs());
+                Method method = implClass.getMethod(rpcRequest.getMethodName(), rpcRequest.getParameterTypes());
+                Object result = method.invoke(implClass.newInstance(), rpcRequest.getArgs());
                 // 封装返回结果
                 rpcResponse.setData(result);
                 rpcResponse.setDataType(method.getReturnType());
@@ -61,5 +61,8 @@ public class TcpServerHandler implements Handler<NetSocket> {
                 throw new RuntimeException("协议消息编码错误");
             }
         });
+
+        // 处理连接
+        netSocket.handler(bufferHandlerWrapper);
     }
 }

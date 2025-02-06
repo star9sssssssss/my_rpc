@@ -1,6 +1,5 @@
 package com.sleeve.example.provider;
 
-
 import com.sleeve.core.RpcApplication;
 import com.sleeve.core.config.RegistryConfig;
 import com.sleeve.core.config.RpcConfig;
@@ -9,10 +8,12 @@ import com.sleeve.core.registry.LocalRegistry;
 import com.sleeve.core.registry.Registry;
 import com.sleeve.core.registry.RegistryFactory;
 import com.sleeve.core.server.VertxHttpServer;
+import com.sleeve.core.server.tcp.VertxTcpServer;
 import com.sleeve.example.common.service.UserService;
 
 // 使用注册中心的rpc
 public class ProviderExampleByRegistry {
+
     public static void main(String[] args) {
         RpcApplication.init();
 
@@ -20,6 +21,7 @@ public class ProviderExampleByRegistry {
         String name = UserService.class.getName();
         LocalRegistry.register(UserService.class.getName(), UserServiceImpl.class);
         System.out.println(LocalRegistry.get(name));
+
         // 注册到服务中心
         RpcConfig rpcConfig = RpcApplication.getRpcConfig();
         RegistryConfig registryConfig = rpcConfig.getRegistryConfig();
@@ -49,7 +51,12 @@ public class ProviderExampleByRegistry {
             throw new RuntimeException(e);
         }
 
-        VertxHttpServer server = new VertxHttpServer();
-        server.doStart(RpcApplication.getRpcConfig().getServerPort());
+        // 使用HTTP
+//        VertxHttpServer server = new VertxHttpServer();
+//        server.doStart(RpcApplication.getRpcConfig().getServerPort());
+
+        // 使用TCP
+        VertxTcpServer tcpServer = new VertxTcpServer();
+        tcpServer.doStart(RpcApplication.getRpcConfig().getServerPort());
     }
 }
