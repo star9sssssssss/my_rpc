@@ -6,6 +6,7 @@ import com.sleeve.core.model.RpcRequest;
 import com.sleeve.core.model.RpcResponse;
 import com.sleeve.core.model.ServiceMetaInfo;
 import com.sleeve.core.protocol.*;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetClient;
@@ -50,17 +51,19 @@ public class VertxTcpClient {
     }
 
     /**
+     * TCP连接的客户端
      * 发送请求
-     *
-     * @param rpcRequest
-     * @param serviceMetaInfo
-     * @return
+     * 接收响应
+     * 将原生请求包装成自定义协议请求ProtocolMessage，并将自定义协议响应ProtocolMessage解包为的原生响应
+     * @param rpcRequest 需要发送的原生请求
+     * @param serviceMetaInfo 调用的远程服务信息
+     * @return 本次请求的原生响应
      * @throws InterruptedException
      * @throws ExecutionException
      */
     public static RpcResponse doRequest(RpcRequest rpcRequest, ServiceMetaInfo serviceMetaInfo) throws InterruptedException, ExecutionException {
-        // 发送 TCP 请求
         Vertx vertx = Vertx.vertx();
+        // 1. 创建Tcp客户端
         NetClient netClient = vertx.createNetClient();
         CompletableFuture<RpcResponse> responseFuture = new CompletableFuture<>();
         netClient.connect(serviceMetaInfo.getServicePort(), serviceMetaInfo.getServiceHost(),
@@ -70,20 +73,18 @@ public class VertxTcpClient {
                         return;
                     }
                     NetSocket socket = result.result();
-                    // 发送数据
-                    // 构造消息
+                    // 2.构造协议的消息类型 ProtocolMessage<RpcRequest>
                     ProtocolMessage<RpcRequest> protocolMessage = new ProtocolMessage<>();
                     ProtocolMessage.Header header = new ProtocolMessage.Header();
                     header.setMagic(ProtocolConstant.PROTOCOL_MAGIC);
                     header.setVersion(ProtocolConstant.PROTOCOL_VERSION);
                     header.setSerializer((byte) ProtocolMessageSerializerEnum.getEnumByValue(RpcApplication.getRpcConfig().getSerializer()).getKey());
                     header.setType((byte) ProtocolMessageTypeEnum.REQUEST.getKey());
-                    // 生成全局请求 ID
                     header.setRequestId(IdUtil.getSnowflakeNextId());
                     protocolMessage.setHeader(header);
                     protocolMessage.setBody(rpcRequest);
 
-                    // 编码请求
+                    // 3.将消息对象转换为Tcp支持传输的对象类型Buffer，发送请求
                     try {
                         Buffer encodeBuffer = ProtocolMessageEncoder.encode(protocolMessage);
                         socket.write(encodeBuffer);
@@ -91,24 +92,26 @@ public class VertxTcpClient {
                         throw new RuntimeException("协议消息编码错误");
                     }
 
-                    // 接收响应
-                    TcpBufferHandlerWrapper bufferHandlerWrapper = new TcpBufferHandlerWrapper(
-                            buffer -> {
-                                try {
-                                    ProtocolMessage<RpcResponse> rpcResponseProtocolMessage =
-                                            (ProtocolMessage<RpcResponse>) ProtocolMessageDecoder.decode(buffer);
-                                    responseFuture.complete(rpcResponseProtocolMessage.getBody());
-                                } catch (IOException e) {
-                                    throw new RuntimeException("协议消息解码错误");
-                                }
+                    // 4.使用包装类封装处理响应，解码为原生响应对象ProtocolMessage<RpcResponse>，使用异步任务等待响应结果
+                    Handler<Buffer> bufferHandler = new Handler<>() {
+                        @Override
+                        public void handle(Buffer buffer) {
+                            try {
+                                ProtocolMessage<RpcResponse> rpcResponseProtocolMessage =
+                                        (ProtocolMessage<RpcResponse>) ProtocolMessageDecoder.decode(buffer);
+                                responseFuture.complete(rpcResponseProtocolMessage.getBody());
+                            } catch (IOException e) {
+                                throw new RuntimeException("协议消息解码错误");
                             }
-                    );
+                        }
+                    };
+                    // 经过 "装饰" 后的处理类
+                    TcpBufferHandlerWrapper bufferHandlerWrapper = new TcpBufferHandlerWrapper(bufferHandler);
+                    // 接收数据进行解码
                     socket.handler(bufferHandlerWrapper);
-
                 });
-
+        // 5.获得最终的响应结果，关闭本次Tcp连接
         RpcResponse rpcResponse = responseFuture.get();
-        // 记得关闭连接
         netClient.close();
         return rpcResponse;
     }

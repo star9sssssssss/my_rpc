@@ -14,7 +14,7 @@ public class ProtocolMessageEncoder {
     /**
      * 编码
      * @param protocolMessage 协议消息类
-     * @return
+     * @return 将协议消息转换为Buffer
      * @throws IOException
      */
     public static Buffer encode(ProtocolMessage<?> protocolMessage) throws IOException {
@@ -37,9 +37,11 @@ public class ProtocolMessageEncoder {
             throw new RuntimeException("序列化协议不存在");
         }
         Serializer mySerializer = SerializerFactory.getInstance(serializerEnum.getValue());
+        // 将Body进行序列化
         byte[] bodyBytes = mySerializer.serialize(protocolMessage.getBody());
-        // 写入body长度和数据
+        // 写入序列化后body的长度和数据
         buffer.appendInt(bodyBytes.length);
+        // 后面是请求体
         buffer.appendBytes(bodyBytes);
         return buffer;
     }

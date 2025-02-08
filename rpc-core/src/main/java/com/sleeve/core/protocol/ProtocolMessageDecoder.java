@@ -16,7 +16,7 @@ public class ProtocolMessageDecoder {
     /**
      * 解码
      * @param buffer 对Buffer解码
-     * @return
+     * @return 将Buffer转换为原生的协议信息
      * @throws IOException
      */
     public static ProtocolMessage<?> decode(Buffer buffer) throws IOException {
@@ -35,7 +35,7 @@ public class ProtocolMessageDecoder {
         header.setStatus(buffer.getByte(4));
         header.setRequestId(buffer.getLong(5));
         header.setBodyLength(buffer.getInt(13));
-        // 解决粘包问题，只读指定长度的数据
+        // 解决粘包问题，只读指定长度的数据 处理数据体
         byte[] bodyBytes = buffer.getBytes(17, 17 + header.getBodyLength());
         // 解析消息体
         ProtocolMessageSerializerEnum serializerEnum = ProtocolMessageSerializerEnum
@@ -49,10 +49,10 @@ public class ProtocolMessageDecoder {
             throw new RuntimeException("序列化消息的类型不存在");
         }
         switch (messageTypeEnum) {
-            case REQUEST:
+            case REQUEST: // 请求类型
                 RpcRequest request = serializer.deserialize(bodyBytes, RpcRequest.class);
                 return new ProtocolMessage<>(header, request);
-            case RESPONSE:
+            case RESPONSE: // 响应类型
                 RpcResponse response = serializer.deserialize(bodyBytes, RpcResponse.class);
                 return new ProtocolMessage<>(header, response);
             case HEART_BEAT:

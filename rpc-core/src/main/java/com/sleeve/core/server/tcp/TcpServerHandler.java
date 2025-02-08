@@ -16,31 +16,34 @@ import java.lang.reflect.Method;
 
 /**
  * TCP 请求处理器
+ *
  */
 public class TcpServerHandler implements Handler<NetSocket> {
 
+    /**
+     * TCP连接的服务端
+     * 接收请求
+     * 返回响应
+     * @param netSocket
+     */
     @Override
     public void handle(NetSocket netSocket) {
 
         TcpBufferHandlerWrapper bufferHandlerWrapper = new TcpBufferHandlerWrapper(buffer -> {
-            // 处理请求，解码
+            // 1.对请求进行解码为ProtocolMessage<RpcRequest>
             ProtocolMessage<RpcRequest> protocolMessage;
             try {
                 protocolMessage = (ProtocolMessage<RpcRequest>) ProtocolMessageDecoder.decode(buffer);
             } catch (IOException e) {
                 throw new RuntimeException("协议消息解码错误");
             }
-
+            // 2.获得原生请求RpcRequest，调用服务，返回原生响应
             RpcRequest rpcRequest = protocolMessage.getBody();
-            // 处理请求
-            // 构造响应结果对象
             RpcResponse rpcResponse = new RpcResponse();
-            // 通过反射调用实现类
             Class<?> implClass = LocalRegistry.get(rpcRequest.getServiceName());
             try {
                 Method method = implClass.getMethod(rpcRequest.getMethodName(), rpcRequest.getParameterTypes());
                 Object result = method.invoke(implClass.newInstance(), rpcRequest.getArgs());
-                // 封装返回结果
                 rpcResponse.setData(result);
                 rpcResponse.setDataType(method.getReturnType());
                 rpcResponse.setMessage("ok");
@@ -49,8 +52,9 @@ public class TcpServerHandler implements Handler<NetSocket> {
                 rpcResponse.setMessage(e.getMessage());
                 rpcResponse.setException(e);
             }
-            // 发送响应，编码
+            // 3.将原生响应封装为ProtocolMessage<RpcResponse>并编码为Buffer类型，进行Tcp传输
             ProtocolMessage.Header header = protocolMessage.getHeader();
+            // 只改变头部的消息类型，其余的都不进行修改
             header.setType((byte) ProtocolMessageTypeEnum.RESPONSE.getKey());
             ProtocolMessage<RpcResponse> responseProtocolMessage =
                     new ProtocolMessage<>(header, rpcResponse);
@@ -62,7 +66,7 @@ public class TcpServerHandler implements Handler<NetSocket> {
             }
         });
 
-        // 处理连接
+        // 处理连接, 接收请求
         netSocket.handler(bufferHandlerWrapper);
     }
 }
