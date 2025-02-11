@@ -1,9 +1,9 @@
 package com.sleeve.example.provider;
 
-import com.sleeve.core.RpcApplication;
+import com.sleeve.rpc.RpcApplication;
 import com.sleeve.example.common.service.UserService;
-import com.sleeve.core.registry.LocalRegistry;
-import com.sleeve.core.server.VertxHttpServer;
+import com.sleeve.rpc.registry.LocalRegistry;
+import com.sleeve.rpc.server.VertxHttpServer;
 
 /**
  * 简单的服务提供者示例

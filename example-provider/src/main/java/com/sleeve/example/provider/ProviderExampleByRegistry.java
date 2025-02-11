@@ -1,14 +1,13 @@
 package com.sleeve.example.provider;
 
-import com.sleeve.core.RpcApplication;
-import com.sleeve.core.config.RegistryConfig;
-import com.sleeve.core.config.RpcConfig;
-import com.sleeve.core.model.ServiceMetaInfo;
-import com.sleeve.core.registry.LocalRegistry;
-import com.sleeve.core.registry.Registry;
-import com.sleeve.core.registry.RegistryFactory;
-import com.sleeve.core.server.VertxHttpServer;
-import com.sleeve.core.server.tcp.VertxTcpServer;
+import com.sleeve.rpc.RpcApplication;
+import com.sleeve.rpc.config.RegistryConfig;
+import com.sleeve.rpc.config.RpcConfig;
+import com.sleeve.rpc.model.ServiceMetaInfo;
+import com.sleeve.rpc.registry.LocalRegistry;
+import com.sleeve.rpc.registry.Registry;
+import com.sleeve.rpc.registry.RegistryFactory;
+import com.sleeve.rpc.server.tcp.VertxTcpServer;
 import com.sleeve.example.common.service.UserService;
 
 // 使用注册中心的rpc
@@ -33,20 +32,20 @@ public class ProviderExampleByRegistry {
         metaInfo.setServiceHost(rpcConfig.getServerHost());
         metaInfo.setServicePort(rpcConfig.getServerPort());
 
-        ServiceMetaInfo test1 = new ServiceMetaInfo();
-        test1.setServiceName(name);
-        test1.setServiceHost("192.168.177.130");
-        test1.setServicePort(8081);
-
-        ServiceMetaInfo test2 = new ServiceMetaInfo();
-        test2.setServiceName(name);
-        test2.setServiceHost("192.168.177.131");
-        test2.setServicePort(8082);
+//        ServiceMetaInfo test1 = new ServiceMetaInfo();
+//        test1.setServiceName(name);
+//        test1.setServiceHost("192.168.177.130");
+//        test1.setServicePort(8081);
+//
+//        ServiceMetaInfo test2 = new ServiceMetaInfo();
+//        test2.setServiceName(name);
+//        test2.setServiceHost("192.168.177.131");
+//        test2.setServicePort(8082);
 
         try {
             registry.register(metaInfo);
-            registry.register(test1);
-            registry.register(test2);
+//            registry.register(test1);
+//            registry.register(test2);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

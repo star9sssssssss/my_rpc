@@ -1,0 +1,1 @@
+etcd=com.sleeve.rpc.registry.EtcdRegistry

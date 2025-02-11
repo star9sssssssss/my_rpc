@@ -1,6 +1,6 @@
 package com.sleeve.example.consumer;
 
-import com.sleeve.core.proxy.ServiceProxyFactory;
+import com.sleeve.rpc.proxy.ServiceProxyFactory;
 import com.sleeve.example.common.model.User;
 import com.sleeve.example.common.service.UserService;
 

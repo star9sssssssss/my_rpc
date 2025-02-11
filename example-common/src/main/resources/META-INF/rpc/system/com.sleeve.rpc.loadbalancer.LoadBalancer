@@ -1,0 +1,4 @@
+roundRobin=com.sleeve.rpc.loadbalancer.RoundRobinLoadBalancer
+random=com.sleeve.rpc.loadbalancer.RandomLoadBalancer
+consistentHash=com.sleeve.rpc.loadbalancer.ConsistentHashLoadBalancer
+test=com.sleeve.example.common.test.TestLoadBalancer
