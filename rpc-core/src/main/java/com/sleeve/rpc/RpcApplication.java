@@ -16,6 +16,7 @@ public class RpcApplication {
 
     /**
      * 框架初始化，支持自定义配置
+     * TODO 暂时未区别客户端和服务端
      * @param newRpcConfig
      */
     public static void init(RpcConfig newRpcConfig) {
@@ -25,9 +26,9 @@ public class RpcApplication {
         // 注册中心初始化 => RegistryConfig
         RegistryConfig registryConfig = rpcConfig.getRegistryConfig();
         Registry registry = RegistryFactory.getInstance(registryConfig.getRegistryType());
+        // 开启心跳检测
         registry.init(registryConfig);
         log.info("registry init, config = {}", registryConfig.toString());
-
         // 创建并注册 shutdown hook， JVM退出时执行操作 (下线当前节点的所有服务)
         Runtime.getRuntime().addShutdownHook(new Thread(registry::destroy));
     }
@@ -55,10 +56,12 @@ public class RpcApplication {
         if (rpcConfig == null) {
             synchronized (RpcApplication.class) {
                 if (rpcConfig == null) {
+                    log.info("单例模式获取RpcConfig初始化");
                     init();
                 }
             }
         }
+        log.info("已通过单例模式获取RpcConfig");
         return rpcConfig;
     }
 

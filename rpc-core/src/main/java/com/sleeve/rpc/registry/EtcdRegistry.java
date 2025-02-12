@@ -131,7 +131,7 @@ public class EtcdRegistry implements Registry {
 
     @Override
     public void destroy() {
-        System.out.println("当前节点下线");
+        log.info("当前节点下线, {}", localRegisterNodeKeySet.size());
         // 遍历当前节点的所有服务
         for (String key : localRegisterNodeKeySet) {
             try {
@@ -140,6 +140,7 @@ public class EtcdRegistry implements Registry {
                 log.error("当前服务 {} 下线失败", key, e);
             }
         }
+        localRegisterNodeKeySet.clear();
         // 释放资源
         if (kvClient != null) {
             kvClient.close();
@@ -151,10 +152,14 @@ public class EtcdRegistry implements Registry {
 
     @Override
     public void heartBeat() {
+        if (localRegisterNodeKeySet.isEmpty()) {
+            return;
+        }
         // 15s 续签一次
         CronUtil.schedule("*/15 * * * * *", new Task() {
             @Override
             public void execute() {
+//                log.info("正在进行heartbeat, {}", localRegisterNodeKeySet.size());
                 // 遍历本节点的所有key
                 for (String key : localRegisterNodeKeySet) {
                     try {

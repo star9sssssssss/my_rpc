@@ -1,0 +1,3 @@
+noRetry=com.sleeve.rpc.fault.retry.NoRetryStrategy
+fixedInterval=com.sleeve.rpc.fault.retry.FixedIntervalRetryStrategy
+exponentialBackOff=com.sleeve.rpc.fault.retry.ExponentialBackoffRetryStrategy

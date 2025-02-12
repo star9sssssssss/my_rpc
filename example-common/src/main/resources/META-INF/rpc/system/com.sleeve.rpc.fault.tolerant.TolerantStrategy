@@ -1,0 +1,4 @@
+failBack=com.sleeve.rpc.fault.tolerant.FailBackTolerantStrategy
+failFast=com.sleeve.rpc.fault.tolerant.FailFastTolerantStrategy
+failOver=com.sleeve.rpc.fault.tolerant.FailOverTolerantStrategy
+failSafe=com.sleeve.rpc.fault.tolerant.FailSafeTolerantStrategy

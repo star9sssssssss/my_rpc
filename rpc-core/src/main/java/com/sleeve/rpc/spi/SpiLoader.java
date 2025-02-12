@@ -83,12 +83,13 @@ public class SpiLoader {
         if (!instanceCache.containsKey(implClassName)) {
             try {
                 instanceCache.put(implClassName, implClass.newInstance());
+                log.info("第一次加载类 {}, 存入cache中", implClassName);
             } catch (InstantiationException | IllegalAccessException e) {
                 String errorMsg = String.format("%s 类实例化失败", implClassName);
                 throw new RuntimeException(errorMsg, e);
             }
         }
-        log.info("本次使用的类型为为 {}", implClass.getSimpleName());
+        log.info("本次使用的类型为 {}", implClass.getSimpleName());
         return (T) instanceCache.get(implClassName);
     }
 
@@ -115,7 +116,7 @@ public class SpiLoader {
                         if (strArray.length > 1) {
                             String key = strArray[0];
                             String className = strArray[1];
-                            // key ==> 对应的服务类名
+                            // key ==> 对应的服务类名 如 etcd ==> class com.sleeve.rpc.registry.EtcdRegistry
                             keyClassMap.put(key, Class.forName(className));
                             log.info("加载类型: {}, 具体的实现类: {}", key, Class.forName(className));
                         }
@@ -125,6 +126,7 @@ public class SpiLoader {
                 }
             }
         }
+        // 如 Registry ==> (etcd ==> class com.sleeve.rpc.registry.EtcdRegistry)
         loaderMap.put(loadClass.getName(), keyClassMap);
         return keyClassMap;
     }

@@ -1,5 +1,6 @@
 package com.sleeve.example.consumer;
 
+import com.sleeve.rpc.bootstrap.ConsumerBootstrap;
 import com.sleeve.rpc.proxy.ServiceProxyFactory;
 import com.sleeve.example.common.model.User;
 import com.sleeve.example.common.service.UserService;
@@ -19,6 +20,7 @@ public class EasyConsumerExample {
 //    }
 
     public static void main(String[] args) {
+        ConsumerBootstrap.init();
         UserService userService = ServiceProxyFactory.getProxy(UserService.class);
         User user = new User();
         user.setName("Jack");

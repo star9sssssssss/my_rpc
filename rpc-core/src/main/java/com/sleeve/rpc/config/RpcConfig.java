@@ -1,5 +1,7 @@
 package com.sleeve.rpc.config;
 
+import com.sleeve.rpc.fault.retry.RetryStrategyKeys;
+import com.sleeve.rpc.fault.tolerant.TolerantStrategyKeys;
 import com.sleeve.rpc.loadbalancer.LoadBalancerKeys;
 import com.sleeve.rpc.serializer.SerializerKeys;
 import lombok.Data;
@@ -51,6 +53,16 @@ public class RpcConfig {
      * 负载均衡器
      */
     private String loadBalancer = LoadBalancerKeys.ROUND_ROBIN;
+
+    /**
+     * 重试机制
+     */
+    private String retryStrategy = RetryStrategyKeys.FIXED_INTERVAL;
+
+    /**
+     * 容错策略
+     */
+    private String tolerantStrategy = TolerantStrategyKeys.FAIL_FAST;
 
     public Boolean isMock() {
         return mock;

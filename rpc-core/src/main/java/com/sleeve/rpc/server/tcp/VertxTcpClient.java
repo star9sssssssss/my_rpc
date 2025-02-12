@@ -60,7 +60,7 @@ public class VertxTcpClient {
      * @throws InterruptedException
      * @throws ExecutionException
      */
-    public static RpcResponse doRequest(RpcRequest rpcRequest, ServiceMetaInfo serviceMetaInfo) throws InterruptedException, ExecutionException {
+    public static RpcResponse doRequest(RpcRequest rpcRequest, ServiceMetaInfo serviceMetaInfo) throws Exception {
         Vertx vertx = Vertx.vertx();
         // 1. 创建Tcp客户端
         NetClient netClient = vertx.createNetClient();
@@ -68,9 +68,13 @@ public class VertxTcpClient {
         netClient.connect(serviceMetaInfo.getServicePort(), serviceMetaInfo.getServiceHost(),
                 result -> {
                     if (!result.succeeded()) {
+                        netClient.close();
                         System.err.println("Failed to connect to TCP server");
+                        // TODO 连接失败抛出异常, 必须这样，才能让重试机制捕获到异常
+                        responseFuture.completeExceptionally(new RuntimeException("TCP连接失败，出现异常"));
                         return;
                     }
+                    System.out.println("Success to connect to TCP server");
                     NetSocket socket = result.result();
                     // 2.构造协议的消息类型 ProtocolMessage<RpcRequest>
                     ProtocolMessage<RpcRequest> protocolMessage = new ProtocolMessage<>();
@@ -88,6 +92,7 @@ public class VertxTcpClient {
                         Buffer encodeBuffer = ProtocolMessageEncoder.encode(protocolMessage);
                         socket.write(encodeBuffer);
                     } catch (IOException e) {
+                        netClient.close();
                         throw new RuntimeException("协议消息编码错误");
                     }
 
@@ -100,6 +105,7 @@ public class VertxTcpClient {
                                         (ProtocolMessage<RpcResponse>) ProtocolMessageDecoder.decode(buffer);
                                 responseFuture.complete(rpcResponseProtocolMessage.getBody());
                             } catch (IOException e) {
+                                netClient.close();
                                 throw new RuntimeException("协议消息解码错误");
                             }
                         }
