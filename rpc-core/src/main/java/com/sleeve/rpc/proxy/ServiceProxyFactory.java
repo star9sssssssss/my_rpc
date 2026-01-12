@@ -1,5 +1,6 @@
 package com.sleeve.rpc.proxy;
 
+import com.sleeve.easyrpc.proxy.ServiceProxy;
 import com.sleeve.rpc.RpcApplication;
 
 import java.lang.reflect.Proxy;

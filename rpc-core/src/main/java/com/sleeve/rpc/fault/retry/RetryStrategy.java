@@ -1,8 +1,7 @@
 package com.sleeve.rpc.fault.retry;
 
 
-import com.sleeve.rpc.model.RpcRequest;
-import com.sleeve.rpc.model.RpcResponse;
+import com.sleeve.easyrpc.model.RpcResponse;
 
 import java.util.concurrent.Callable;
 

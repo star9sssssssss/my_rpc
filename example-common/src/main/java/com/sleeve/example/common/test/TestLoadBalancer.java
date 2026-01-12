@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TestLoadBalancer implements LoadBalancer {
+    @Override
     public ServiceMetaInfo select(Map<String, Object> requestParams, List<ServiceMetaInfo> serviceMetaInfoList) {
         return serviceMetaInfoList.get(0);
     }

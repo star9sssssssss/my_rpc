@@ -1,7 +1,7 @@
 package com.sleeve.example.consumer;
 
 import com.sleeve.rpc.bootstrap.ConsumerBootstrap;
-import com.sleeve.rpc.proxy.ServiceProxyFactory;
+import com.sleeve.easyrpc.proxy.ServiceProxyFactory;
 import com.sleeve.example.common.model.User;
 import com.sleeve.example.common.service.UserService;
 

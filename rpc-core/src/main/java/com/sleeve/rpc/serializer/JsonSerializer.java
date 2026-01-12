@@ -1,8 +1,9 @@
 package com.sleeve.rpc.serializer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sleeve.rpc.model.RpcRequest;
-import com.sleeve.rpc.model.RpcResponse;
+import com.sleeve.easyrpc.model.RpcRequest;
+import com.sleeve.easyrpc.model.RpcResponse;
+import com.sleeve.easyrpc.serializer.Serializer;
 
 import java.io.IOException;
 

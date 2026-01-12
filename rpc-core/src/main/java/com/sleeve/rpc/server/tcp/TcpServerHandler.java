@@ -1,12 +1,12 @@
 package com.sleeve.rpc.server.tcp;
 
-import com.sleeve.rpc.model.RpcRequest;
-import com.sleeve.rpc.model.RpcResponse;
+import com.sleeve.easyrpc.model.RpcRequest;
+import com.sleeve.easyrpc.model.RpcResponse;
 import com.sleeve.rpc.protocol.ProtocolMessage;
 import com.sleeve.rpc.protocol.ProtocolMessageDecoder;
 import com.sleeve.rpc.protocol.ProtocolMessageEncoder;
 import com.sleeve.rpc.protocol.ProtocolMessageTypeEnum;
-import com.sleeve.rpc.registry.LocalRegistry;
+import com.sleeve.easyrpc.registry.LocalRegistry;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetSocket;

@@ -5,7 +5,7 @@ import com.sleeve.rpc.config.RegistryConfig;
 import com.sleeve.rpc.config.RpcConfig;
 import com.sleeve.rpc.model.ServiceMetaInfo;
 import com.sleeve.rpc.model.ServiceRegisterInfo;
-import com.sleeve.rpc.registry.LocalRegistry;
+import com.sleeve.easyrpc.registry.LocalRegistry;
 import com.sleeve.rpc.registry.Registry;
 import com.sleeve.rpc.registry.RegistryFactory;
 import com.sleeve.rpc.server.tcp.VertxTcpServer;

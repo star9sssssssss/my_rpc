@@ -1,6 +1,8 @@
 package com.sleeve.rpc.serializer;
 
 
+import com.sleeve.easyrpc.serializer.JdkSerializer;
+import com.sleeve.easyrpc.serializer.Serializer;
 import com.sleeve.rpc.spi.SpiLoader;
 
 
@@ -11,7 +13,7 @@ public class SerializerFactory {
 
     // 使用读取配置文件方式
     static {
-        SpiLoader.load(Serializer.class);
+        SpiLoader.load(com.sleeve.easyrpc.serializer.Serializer.class);
     }
 
 
@@ -34,8 +36,8 @@ public class SerializerFactory {
      * @param key
      * @return
      */
-    public static Serializer getInstance(String key) {
-        return SpiLoader.getInstance(Serializer.class, key);
+    public static com.sleeve.easyrpc.serializer.Serializer getInstance(String key) {
+        return SpiLoader.getInstance(com.sleeve.easyrpc.serializer.Serializer.class, key);
     }
 
 }
