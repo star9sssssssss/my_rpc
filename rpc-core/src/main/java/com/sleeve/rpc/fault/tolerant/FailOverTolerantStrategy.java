@@ -1,12 +1,11 @@
 package com.sleeve.rpc.fault.tolerant;
 
-import com.sleeve.rpc.model.RpcResponse;
+import com.sleeve.easyrpc.model.RpcResponse;
 import com.sleeve.rpc.model.ServiceMetaInfo;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 /**
  * 转移到其他服务节点 - 容错策略

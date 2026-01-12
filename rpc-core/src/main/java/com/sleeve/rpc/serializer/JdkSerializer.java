@@ -1,11 +1,13 @@
 package com.sleeve.rpc.serializer;
 
+import com.sleeve.easyrpc.serializer.Serializer;
+
 import java.io.*;
 
 /**
  * 基于java原生的序列化实现
  */
-public class JdkSerializer implements Serializer{
+public class JdkSerializer implements Serializer {
 
     /**
      *  序列化

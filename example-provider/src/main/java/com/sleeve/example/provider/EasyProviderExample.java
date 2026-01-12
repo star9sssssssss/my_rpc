@@ -1,11 +1,9 @@
 package com.sleeve.example.provider;
 
-import com.sleeve.rpc.RpcApplication;
 import com.sleeve.example.common.service.UserService;
+import com.sleeve.example.provider.impl.UserServiceImpl;
 import com.sleeve.rpc.bootstrap.ProviderBootstrap;
 import com.sleeve.rpc.model.ServiceRegisterInfo;
-import com.sleeve.rpc.registry.LocalRegistry;
-import com.sleeve.rpc.server.VertxHttpServer;
 
 import java.util.ArrayList;
 import java.util.List;

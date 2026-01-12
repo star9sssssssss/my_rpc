@@ -2,8 +2,8 @@ package com.sleeve.rpc.server.tcp;
 
 import cn.hutool.core.util.IdUtil;
 import com.sleeve.rpc.RpcApplication;
-import com.sleeve.rpc.model.RpcRequest;
-import com.sleeve.rpc.model.RpcResponse;
+import com.sleeve.easyrpc.model.RpcRequest;
+import com.sleeve.easyrpc.model.RpcResponse;
 import com.sleeve.rpc.model.ServiceMetaInfo;
 import com.sleeve.rpc.protocol.*;
 import io.vertx.core.Handler;
@@ -97,7 +97,7 @@ public class VertxTcpClient {
                     }
 
                     // 4.使用包装类封装处理响应，解码为原生响应对象ProtocolMessage<RpcResponse>，使用异步任务等待响应结果
-                    Handler<Buffer> bufferHandler = new Handler<>() {
+                    Handler<Buffer> bufferHandler = new Handler<Buffer>() {
                         @Override
                         public void handle(Buffer buffer) {
                             try {

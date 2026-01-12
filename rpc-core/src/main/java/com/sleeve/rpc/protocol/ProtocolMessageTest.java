@@ -2,7 +2,7 @@ package com.sleeve.rpc.protocol;
 
 import cn.hutool.core.util.IdUtil;
 import com.sleeve.rpc.constant.RpcConstant;
-import com.sleeve.rpc.model.RpcRequest;
+import com.sleeve.easyrpc.model.RpcRequest;
 import io.vertx.core.buffer.Buffer;
 import org.junit.Assert;
 import org.junit.Test;
@@ -30,7 +30,7 @@ public class ProtocolMessageTest {
         RpcRequest rpcRequest = new RpcRequest();
         rpcRequest.setServiceName("myService");
         rpcRequest.setMethodName("myMethod");
-        rpcRequest.setServiceVersion(RpcConstant.DEFAULT_SERVICE_VERSION);
+//        rpcRequest.setServiceVersion(RpcConstant.DEFAULT_SERVICE_VERSION);
         rpcRequest.setParameterTypes(new Class[]{String.class, String.class});
         rpcRequest.setArgs(new Object[]{"aaa", "bbb"});
         protocolMessage.setHeader(header);

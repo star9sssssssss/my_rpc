@@ -1,6 +1,6 @@
 package com.sleeve.rpc.server.tcp;
 
-import com.sleeve.rpc.server.HttpServer;
+import com.sleeve.easyrpc.server.HttpServer;
 import io.vertx.core.Vertx;
 import io.vertx.core.net.NetServer;
 import lombok.extern.slf4j.Slf4j;

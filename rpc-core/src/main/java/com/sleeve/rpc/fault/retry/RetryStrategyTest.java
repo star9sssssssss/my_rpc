@@ -1,6 +1,6 @@
 package com.sleeve.rpc.fault.retry;
 
-import com.sleeve.rpc.model.RpcResponse;
+import com.sleeve.easyrpc.model.RpcResponse;
 import org.junit.Test;
 
 public class RetryStrategyTest {

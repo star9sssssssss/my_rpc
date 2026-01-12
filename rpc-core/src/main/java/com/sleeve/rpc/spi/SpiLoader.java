@@ -1,7 +1,7 @@
 package com.sleeve.rpc.spi;
 
 import cn.hutool.core.io.resource.ResourceUtil;
-import com.sleeve.rpc.serializer.Serializer;
+import com.sleeve.easyrpc.serializer.Serializer;
 import lombok.extern.slf4j.Slf4j;
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,6 +1,6 @@
 package com.sleeve.rpc.fault.tolerant;
 
-import com.sleeve.rpc.model.RpcResponse;
+import com.sleeve.easyrpc.model.RpcResponse;
 
 import java.util.Map;
 
