@@ -15,6 +15,8 @@
         <module name="rpc-core" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="17" />
+    <bytecodeTargetLevel target="17">
+      <module name="AI_STUDY" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

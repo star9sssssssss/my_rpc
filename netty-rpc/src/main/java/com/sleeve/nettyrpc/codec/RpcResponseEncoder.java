@@ -1,6 +1,7 @@
-package com.sleeve.nettyrpc;
+package com.sleeve.nettyrpc.codec;
 
-
+import com.sleeve.nettyrpc.message.Message;
+import com.sleeve.nettyrpc.message.RpcResponse;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
@@ -10,15 +11,14 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 /**
- * 将 RpcRequest对象编码为字节数组
+ * 将 RpcResponse对象编码为字节数组
  */
-public class RpcRequestEncoder extends MessageToByteEncoder<RpcRequest> {
-
+public class RpcResponseEncoder extends MessageToByteEncoder<RpcResponse> {
     @Override
-    protected void encode(ChannelHandlerContext ctx, RpcRequest rpcRequest, ByteBuf byteBuf) throws Exception {
+    protected void encode(ChannelHandlerContext channelHandlerContext, RpcResponse rpcResponse, ByteBuf byteBuf) throws Exception {
         byte[] magic = Message.MAGIC;
         byte messageType = Message.MessageType.REQUEST.getCode();
-        byte[] body = serializeRpcRequest(rpcRequest);
+        byte[] body = serializeRpcResponse(rpcResponse);
         int length = magic.length + Byte.BYTES + body.length;
         byteBuf.writeInt(length);
         byteBuf.writeBytes(magic);
@@ -26,10 +26,10 @@ public class RpcRequestEncoder extends MessageToByteEncoder<RpcRequest> {
         byteBuf.writeBytes(body);
     }
 
-    private byte[] serializeRpcRequest(RpcRequest rpcRequest) throws IOException {
+    private byte[] serializeRpcResponse(RpcResponse rpcResponse) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-        objectOutputStream.writeObject(rpcRequest);
+        objectOutputStream.writeObject(rpcResponse);
         objectOutputStream.close();
         return outputStream.toByteArray();
     }
