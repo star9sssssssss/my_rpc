@@ -1,4 +1,4 @@
-package com.sleeve.nettyrpc;
+package com.sleeve.nettyrpc.message;
 
 import lombok.Data;
 

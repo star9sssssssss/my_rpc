@@ -1,8 +1,8 @@
 package com.sleeve.nettyrpc.codec;
 
-import com.sleeve.nettyrpc.Message;
-import com.sleeve.nettyrpc.RpcRequest;
-import com.sleeve.nettyrpc.RpcResponse;
+import com.sleeve.nettyrpc.message.Message;
+import com.sleeve.nettyrpc.message.RpcRequest;
+import com.sleeve.nettyrpc.message.RpcResponse;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
